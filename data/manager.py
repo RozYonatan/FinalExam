@@ -1,6 +1,7 @@
 from reading_file_paths import ReadingFilePaths
 from creating_metadata import CreatingMetadata
 from json_builder import JsonBuilder
+from kafka_producer import KafkaLoader
 
 class Manager:
 
@@ -9,10 +10,7 @@ class Manager:
         self.all_data = []
 
 
-
-
     def get_file_paths(self):
-        print(ReadingFilePaths(self.folder_path).read_file_paths())
         return ReadingFilePaths(self.folder_path).read_file_paths()
 
     def get_metadata(self):
@@ -29,6 +27,9 @@ class Manager:
         for data in self.all_data:
             results.append(JsonBuilder().get_metadata(data.path,data.name,data.created_at,data.size))
         return results
+
+    def load_kafka(self):
+        KafkaLoader("kafka").insert("metadata", self.get_json())
 
 
 
