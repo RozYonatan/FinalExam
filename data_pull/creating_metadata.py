@@ -1,10 +1,11 @@
 import datetime
 from pathlib import Path
 
-class CreatingMetadata:
+class Metadata:
 
     def __init__(self, path):
-        self.path = path
+        self.original_path = path
+        self.path = Path(path)
         self.name = ""
         self.size = 0
         self.created_at = ""

@@ -5,7 +5,7 @@ import json
 
 class KafkaLoader:
 
-    def __init__(self, host) -> None:
+    def __init__(self, host: str = "localhost") -> None:
         self.producer = KafkaProducer(
             bootstrap_servers=f'{host}:9092',
             value_serializer=lambda v: v.encode('utf-8')
