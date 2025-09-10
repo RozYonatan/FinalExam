@@ -4,6 +4,7 @@ from consumption_and_processing.esDAL import ElasticsearchClient
 import uuid
 from logger import Logger
 from stt import STT
+from classifier import Classifier
 
 
 logger = Logger.get_logger()
@@ -20,7 +21,11 @@ class Manager:
             self.mongo_dal.upload_audio(message.value["path"],message.value["unique_id"])
             audio_data = self.mongo_dal.get_audio(message.value["unique_id"])
             message.value["transcribed_text"] = STT.extract_text(audio_data)
-            # self.es_dal.create_index("muazin_metadata",message.value)
+            classifier = Classifier(message.value["transcribed_text"])
+            message.value["is_bds"] = classifier.get_is_bds()
+            message.value["classification"] = classifier.classify()
+            message.value["percent"] = classifier.get_percent()
+            self.es_dal.create_index("muazin_metadata",message.value)
 
 
 
