@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 import gridfs
 
+
 class MongoDAL:
 
     def __init__(self,connection_string,db_name):
@@ -11,5 +12,10 @@ class MongoDAL:
     def upload_audio(self, file_path,unique_id):
         with open(file_path, "rb") as f:
             self.fs.put(f, filename=file_path,unique_id=unique_id)
+
+    def get_audio(self, unique_id):
+        file = self.fs.find_one({"unique_id": unique_id})
+        binary = file.read()
+        return binary
 
 
