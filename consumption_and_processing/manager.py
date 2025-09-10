@@ -19,9 +19,8 @@ class Manager:
             message.value["unique_id"] = uuid.uuid4().hex
             self.mongo_dal.upload_audio(message.value["path"],message.value["unique_id"])
             audio_data = self.mongo_dal.get_audio(message.value["unique_id"])
-            stt = STT(audio_data).extract_text()
-            message.value["transcribed_text"] = stt.get_text()
-            self.es_dal.create_index("muazin_metadata",message.value)
+            message.value["transcribed_text"] = STT.extract_text(audio_data)
+            # self.es_dal.create_index("muazin_metadata",message.value)
 
 
 

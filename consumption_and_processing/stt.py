@@ -1,22 +1,17 @@
-import speech_recognition as sr
-
+from faster_whisper import WhisperModel
+import io
 class STT:
 
-    def __init__(self,audio_data):
-        self.recognizer = sr.Recognizer()
-        self.audio_data = audio_data
-        self.text = ""
-
-    def extract_text(self):
-        try:
-            self.text = self.recognizer.recognize_google(self.audio_data)
-            print(self.text)
-            return self.text
-        except sr.UnknownValueError:
-            return "Google Speech Recognition could not understand audio"
-        except sr.RequestError as e:
-            return f"Could not request results from Google Speech Recognition service; {e}"
+    model = WhisperModel("base")
 
 
-    def get_text(self):
-        return self.text
+    @staticmethod
+    def extract_text(audio_file):
+       segments, info = STT.model.transcribe(io.BytesIO(audio_file))
+       result = ".".join([segment.text for segment in segments])
+       print(result)
+       return result
+
+
+
+
