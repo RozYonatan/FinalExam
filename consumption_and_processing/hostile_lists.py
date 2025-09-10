@@ -1,5 +1,5 @@
 import base64
-
+import io
 
 class HostileLists:
 
@@ -10,9 +10,9 @@ class HostileLists:
 
 
     def get_decryption_list(self,encoded_string):
-        base64_bytes = encoded_string.encode('ascii')
-        message_bytes = base64.b64decode(base64_bytes)
-        decoded_string = message_bytes.decode('utf-8')
+        decoded_bytes = base64.b64decode(encoded_string)
+        decoded_string = decoded_bytes.decode('utf-8')
+        decoded_string = decoded_string.lower()
         decrypted_list = decoded_string.split(",")
         return decrypted_list
 
@@ -21,3 +21,8 @@ class HostileLists:
 
     def get_very_hostile_list(self):
         return self.get_decryption_list(self.encoded_very_hostile)
+
+
+
+
+

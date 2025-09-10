@@ -10,7 +10,7 @@ class Classifier:
     line_medium = 4
     line_high = 6
     def __init__(self,text):
-        self.text = text
+        self.text = text.lower()
         self.count_very_hostile = 0
         self.count_hostile = 0
 
